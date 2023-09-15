@@ -8,7 +8,6 @@ import ImageUpload from "@/components/ui/image-upload";
 import { Input } from "@/components/ui/input";
 import { AlertModal } from "@/components/ui/modals/alert-modal";
 import { Separator } from "@/components/ui/separator";
-import { useOrigin } from "@/hooks/use-origin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Billboard } from "@prisma/client"
 import axios from "axios";
@@ -36,7 +35,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
     
     const params = useParams();
     const router = useRouter(); 
-    const origin = useOrigin();
 
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);  
@@ -78,7 +76,7 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
             setLoading(true)
             await axios.delete(`/api/${params.storeId}/billboards/${params.billboardId}`)
             router.refresh();
-            router.push("/")
+            router.push(`/${params.storeId}/billboards`)
             toast.success("Billboard deleted.")
         }catch(error){
             toast.error("Make sure you remove all categories using this billboard")
@@ -134,8 +132,6 @@ export const BillboardForm: React.FC<BillboardFormProps> = ({initialData}) => {
                 </Button>
             </form>
         </Form>
-        <Separator/>
-        {/* <ApiAlert title="NEXT_PUBLIC_API_URL" description={`${origin}/api/${params.storeId}`} varient="public"/>  */}
         </>
     )
 }
