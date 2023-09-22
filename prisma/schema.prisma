@@ -17,6 +17,7 @@ model Store {
   userId String
   billboards Billboard[] @relation("StoreToBillboard")
   categories Category[] @relation("StoreToCategory")
+  posts Post[] @relation("StoreToPost")
   sizes Size[] @relation("StoreToSize")
   colour Colour[] @relation("StoreToColour")
   products Product[] @relation("StoreToProduct")
@@ -144,4 +145,19 @@ model OrderItem {
 
   @@index([orderId])
   @@index([productId])
+}
+
+
+model Post {
+  id String @id @default(uuid())
+  storeId String
+  store Store @relation("StoreToPost", fields: [storeId], references: [id])
+  name String
+  title String
+  content String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([storeId])
+
 }
